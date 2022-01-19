@@ -8,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,6 +45,18 @@ public class ReceitasController {
 		return repository.findById(id)
 							.map(record -> ResponseEntity.ok().body(record))
 							.orElse(ResponseEntity.notFound().build());
+	}
+	
+	@PutMapping(value = "{id}")
+	public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody Receitas receitaAtualizada){
+		return repository.findById(id)
+					.map(receita -> {
+						receita.setDescricao(receitaAtualizada.getDescricao());
+						receita.setValor(receitaAtualizada.getValor());
+						receita.setData(receitaAtualizada.getData());
+						Receitas update = repository.save(receita);
+						return ResponseEntity.ok().body(update);
+					}).orElse(ResponseEntity.notFound().build());
 	}
 }
 
