@@ -1,7 +1,10 @@
 package io.github.jassonluiz.controleOrcamento.rest;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,5 +30,16 @@ public class DespesasController {
 	public Despesas save(@RequestBody Despesas despesa) {
 		return repository.save(despesa);
 	}
+	
+	@GetMapping
+	public List<Despesas> AllDespesas(){
+		return repository.findAll();
+	}
+	
+	
+	
+	
+	
+	
 	
 }
