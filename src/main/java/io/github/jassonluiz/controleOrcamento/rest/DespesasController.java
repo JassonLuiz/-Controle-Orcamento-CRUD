@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -45,7 +46,17 @@ public class DespesasController {
 							.orElse(ResponseEntity.notFound().build());
 	}
 	
-	
+	@PutMapping(value = "{id}")
+	public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody Despesas despesaAtualizada){
+		return repository.findById(id)
+							.map(despesa ->{
+								despesa.setDescricao(despesaAtualizada.getDescricao());
+								despesa.setValor(despesaAtualizada.getValor());
+								despesa.setData(despesaAtualizada.getData());
+								Despesas update = repository.save(despesa);
+								return ResponseEntity.ok().body(update);
+							}).orElse(ResponseEntity.notFound().build());
+	}
 	
 	
 	
